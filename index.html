@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>青春驿站 · 我们的班级纪念册</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='46' fill='%232E9E8B'/><text x='50' y='62' font-size='44' text-anchor='middle' fill='%23F4F1E8' font-family='sans-serif'>青</text></svg>">
+<style>
+/* ===== 全局 token ===== */
+:root{
+  --bg:#F4F1E8;          /* 米白纸感 */
+  --surface:#FFFDF7;      /* 卡片纸感 */
+  --ink:#24332B;          /* 深墨绿文字 */
+  --ink-soft:#5B6A5E;     /* 次级文字 */
+  --main:#2E9E8B;         /* 青春青绿 */
+  --main-deep:#1F7A6A;
+  --main-soft:#E3F1EC;
+  --accent:#D9914B;       /* 暖橘 */
+  --accent-soft:#F6E7D5;
+  --line:#E2DDD0;
+  --shadow:0 10px 30px rgba(36,51,43,.08);
+  --radius:16px;
+  --serif:'Noto Serif SC', 'Songti SC', 'SimSun', serif;
+  --sans:'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--sans);
+  background:var(--bg);
+  color:var(--ink);
+  line-height:1.7;
+  -webkit-font-smoothing:antialiased;
+}
+/* 纸张底纹 */
+body::before{
+  content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E");
+}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer}
+.container{max-width:1080px;margin:0 auto;padding:0 24px}
+
+/* ===== 顶部导航 ===== */
+.topbar{
+  position:sticky;top:0;z-index:100;
+  background:rgba(244,241,232,.92);
+  backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line);
+}
+.topbar-inner{display:flex;align-items:center;justify-content:space-between;height:64px}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--serif);font-weight:700;font-size:18px;min-height:44px}
+.brand-mark{width:32px;height:32px;flex:none}
+.nav{display:flex;gap:6px}
+.nav-item{
+  padding:8px 14px;border-radius:999px;font-size:14px;font-weight:500;
+  transition:background .2s,color .2s;color:var(--ink-soft);border:none;background:transparent;
+}
+.nav-item:hover{background:var(--main-soft);color:var(--main-deep)}
+.nav-item.active{background:var(--main);color:#fff}
+.nav-burger{display:none;flex-direction:column;gap:5px;background:none;border:none;padding:8px}
+.nav-burger span{width:22px;height:2px;background:var(--ink);border-radius:2px}
+
+/* ===== 视图容器 ===== */
+.view{display:none;min-height:calc(100vh - 64px);padding:56px 0 80px;animation:fadeIn .4s ease}
+.view.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.view{animation:none}}
+
+/* ===== 首页 ===== */
+.hero{text-align:center;padding:64px 0 24px}
+.hero-emblem{width:150px;height:150px;margin:0 auto 24px}
+.hero-eyebrow{font-size:13px;letter-spacing:3px;color:var(--main-deep);font-weight:500;margin-bottom:10px}
+.hero-title{font-family:var(--serif);font-size:clamp(38px,6vw,64px);font-weight:900;line-height:1.15;color:var(--ink)}
+.hero-title .accent{color:var(--main)}
+.hero-sub{font-size:clamp(16px,2.5vw,20px);color:var(--ink-soft);margin-top:14px;font-family:var(--serif)}
+.hero-slogan{margin:20px auto 0;font-size:15px;color:var(--accent);font-weight:600;font-style:italic}
+.hero-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:48px}
+.hero-card{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  padding:28px 20px;text-align:center;transition:transform .25s,box-shadow .25s;
+  box-shadow:var(--shadow);
+}
+.hero-card:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(36,51,43,.14)}
+.hero-card-icon{width:46px;height:46px;margin:0 auto 14px;color:var(--main)}
+.hero-card-title{font-family:var(--serif);font-weight:700;font-size:18px;margin-bottom:6px}
+.hero-card-desc{font-size:13px;color:var(--ink-soft)}
+
+/* ===== 板块头 ===== */
+.section-head{text-align:center;margin-bottom:44px}
+.section-eyebrow{font-size:13px;letter-spacing:3px;color:var(--main-deep);font-weight:500;margin-bottom:8px}
+.section-title{font-family:var(--serif);font-size:clamp(26px,4vw,40px);font-weight:900}
+.section-title span{color:var(--main)}
+.section-desc{color:var(--ink-soft);margin-top:10px;font-size:15px;max-width:640px;margin-left:auto;margin-right:auto}
+
+/* ===== 班徽 ===== */
+.emblem-main{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+.emblem-show{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:40px;text-align:center;position:relative}
+.emblem-show .badge{width:100%;max-width:340px;margin:0 auto}
+.emblem-caption{font-family:var(--serif);font-weight:700;font-size:20px;margin-top:20px;color:var(--main-deep)}
+.emblem-caption small{display:block;font-weight:400;font-size:13px;color:var(--ink-soft);font-family:var(--sans);margin-top:4px}
+.emblem-meaning h3{font-family:var(--serif);font-size:22px;font-weight:700;margin-bottom:20px}
+.meaning-item{display:flex;gap:16px;padding:14px 0;border-bottom:1px dashed var(--line)}
+.meaning-item:last-child{border-bottom:none}
+.meaning-num{flex:none;width:34px;height:34px;border-radius:50%;background:var(--main);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px}
+.meaning-text strong{display:block;font-size:15px;margin-bottom:2px}
+.meaning-text p{font-size:14px;color:var(--ink-soft)}
+
+/* ===== 班歌 ===== */
+.song-wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center}
+.song-player{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:36px}
+.song-title{font-family:var(--serif);font-size:24px;font-weight:700;text-align:center;margin-bottom:4px}
+.song-meta{text-align:center;color:var(--ink-soft);font-size:13px;margin-bottom:24px}
+.song-cover{width:110px;height:110px;border-radius:50%;margin:0 auto 24px;object-fit:cover;border:4px solid var(--main-soft)}
+.play-btn{
+  display:flex;align-items:center;justify-content:center;gap:10px;margin:0 auto;
+  background:var(--main);color:#fff;border:none;padding:14px 36px;border-radius:999px;
+  font-size:16px;font-weight:600;transition:background .2s,transform .15s;width:100%;max-width:260px;
+}
+.play-btn:hover{background:var(--main-deep)}
+.play-btn:active{transform:scale(.97)}
+.song-progress{display:flex;align-items:center;gap:12px;margin-top:22px;font-size:12px;color:var(--ink-soft)}
+.song-progress input[type=range]{flex:1;accent-color:var(--main)}
+.song-lyrics{background:var(--main-soft);border-radius:var(--radius);padding:28px;border:1px solid var(--line)}
+.song-lyrics h3{font-family:var(--serif);font-weight:700;font-size:20px;margin-bottom:16px;text-align:center}
+.song-lyrics .lyric-line{font-family:var(--serif);font-size:15px;text-align:center;padding:5px 0;color:var(--ink-soft)}
+.song-lyrics .lyric-verse{font-weight:700;color:var(--main-deep);margin-top:14px}
+
+/* ===== 班刊 ===== */
+.mag-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.mag-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;transition:transform .25s}
+.mag-card:hover{transform:translateY(-6px)}
+.mag-cover{position:relative;aspect-ratio:3/4;overflow:hidden}
+.mag-cover img{width:100%;height:100%;object-fit:cover}
+.mag-num{position:absolute;top:12px;left:12px;background:rgba(244,241,232,.94);color:var(--main-deep);font-family:var(--serif);font-weight:700;font-size:13px;padding:4px 12px;border-radius:999px}
+.mag-body{padding:20px}
+.mag-title{font-family:var(--serif);font-weight:700;font-size:18px;margin-bottom:6px}
+.mag-desc{font-size:13px;color:var(--ink-soft);margin-bottom:14px;min-height:40px}
+.mag-btn{display:inline-flex;align-items:center;gap:6px;background:none;border:none;color:var(--main);font-weight:600;font-size:14px;padding:4px 0}
+.mag-btn:hover{color:var(--accent)}
+
+/* ===== 时光相册 ===== */
+.timeline{position:relative;max-width:760px;margin:0 auto 56px;padding:0 20px}
+.timeline::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:2px;background:var(--line);transform:translateX(-50%)}
+.tl-item{position:relative;width:50%;padding:0 34px 40px}
+.tl-item:nth-child(odd){left:0;text-align:right}
+.tl-item:nth-child(even){left:50%;text-align:left}
+.tl-dot{position:absolute;top:8px;width:14px;height:14px;border-radius:50%;background:var(--main);border:3px solid var(--bg);box-shadow:0 0 0 3px var(--main-soft)}
+.tl-item:nth-child(odd) .tl-dot{right:-7px}
+.tl-item:nth-child(even) .tl-dot{left:-7px}
+.tl-time{font-size:13px;font-weight:700;color:var(--main-deep);letter-spacing:1px}
+.tl-card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin-top:8px;box-shadow:var(--shadow);display:inline-block;max-width:100%}
+.tl-card strong{font-family:var(--serif);font-size:16px;display:block;margin-bottom:4px}
+.tl-card p{font-size:13px;color:var(--ink-soft)}
+
+.photo-wall{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.photo-item{position:relative;border-radius:12px;overflow:hidden;box-shadow:var(--shadow);cursor:zoom-in}
+.photo-item img{width:100%;height:100%;object-fit:cover;aspect-ratio:4/3;transition:transform .4s}
+.photo-item:hover img{transform:scale(1.05)}
+.photo-cap{position:absolute;inset:auto 0 0 0;background:linear-gradient(transparent,rgba(36,51,43,.75));color:#fff;font-size:13px;padding:28px 14px 12px;opacity:0;transition:opacity .3s}
+.photo-item:hover .photo-cap{opacity:1}
+.upload-bar{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:22px;margin-top:32px;display:flex;align-items:center;gap:16px;box-shadow:var(--shadow);flex-wrap:wrap}
+.upload-bar p{font-size:14px;color:var(--ink-soft);flex:1;min-width:200px}
+.upload-btn{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:#fff;border:none;padding:12px 24px;border-radius:999px;font-weight:600;font-size:14px}
+.upload-btn:hover{filter:brightness(.95)}
+.user-photos{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:18px}
+
+/* ===== 留言墙 ===== */
+.post-form{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px;margin-bottom:32px}
+.post-form h3{font-family:var(--serif);font-weight:700;font-size:20px;margin-bottom:16px}
+.form-row{display:grid;grid-template-columns:180px 1fr;gap:14px;margin-bottom:14px}
+.form-row label{font-size:14px;color:var(--ink-soft);align-self:center}
+.post-form input[type=text],.post-form textarea{
+  width:100%;border:1px solid var(--line);border-radius:10px;padding:12px 14px;font-family:inherit;
+  font-size:14px;background:var(--bg);color:var(--ink);transition:border .2s;
+}
+.post-form input:focus,.post-form textarea:focus{outline:none;border-color:var(--main)}
+.post-form textarea{min-height:90px;resize:vertical}
+.post-submit{background:var(--main);color:#fff;border:none;padding:12px 32px;border-radius:999px;font-weight:600;font-size:15px;float:right;transition:background .2s}
+.post-submit:hover{background:var(--main-deep)}
+.wall-item{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:22px;margin-bottom:18px;box-shadow:var(--shadow)}
+.wall-head{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.wall-avatar{width:40px;height:40px;border-radius:50%;background:var(--main-soft);color:var(--main-deep);display:flex;align-items:center;justify-content:center;font-weight:700}
+.wall-name{font-weight:700;font-size:15px}
+.wall-time{font-size:12px;color:var(--ink-soft)}
+.wall-text{font-size:15px;margin-bottom:14px}
+.wall-img{max-width:340px;border-radius:10px;margin-bottom:14px}
+.wall-actions{display:flex;gap:18px;border-top:1px dashed var(--line);padding-top:12px}
+.like-btn{background:none;border:none;color:var(--ink-soft);font-size:13px;display:inline-flex;align-items:center;gap:6px;transition:color .2s}
+.like-btn:hover{color:var(--accent)}
+.like-btn.liked{color:var(--accent)}
+.wall-empty{text-align:center;color:var(--ink-soft);padding:40px 0;font-size:14px}
+.note-box{background:var(--accent-soft);border-left:4px solid var(--accent);border-radius:8px;padding:14px 18px;margin-bottom:32px;font-size:13px;color:#7A5230}
+
+/* ===== 页脚 ===== */
+.footer{border-top:1px solid var(--line);padding:32px 0;text-align:center;color:var(--ink-soft);font-size:13px}
+.footer .brand{justify-content:center;margin-bottom:8px}
+.footer p{font-size:13px}
+
+/* ===== 灯箱 ===== */
+.lightbox{position:fixed;inset:0;background:rgba(20,28,24,.9);z-index:200;display:none;align-items:center;justify-content:center;cursor:zoom-out;padding:20px}
+.lightbox.open{display:flex}
+.lightbox img{max-width:92vw;max-height:88vh;border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:12px 24px;border-radius:999px;font-size:14px;opacity:0;transition:opacity .3s;z-index:300;pointer-events:none}
+.toast.show{opacity:1}
+
+/* ===== 响应式 ===== */
+@media(max-width:900px){
+  .hero-cards{grid-template-columns:repeat(2,1fr)}
+  .emblem-main,.song-wrap{grid-template-columns:1fr;gap:28px}
+  .mag-grid{grid-template-columns:repeat(2,1fr)}
+  .photo-wall,.user-photos{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:640px){
+  .topbar-inner{height:56px}
+  .nav{position:fixed;top:56px;left:0;right:0;background:var(--bg);flex-direction:column;padding:12px;gap:4px;border-bottom:1px solid var(--line);display:none}
+  .nav.open{display:flex}
+  .nav-item{width:100%;text-align:left;border-radius:10px;padding:12px 14px}
+  .nav-burger{display:flex}
+  .hero{padding:44px 0 12px}
+  .hero-cards{grid-template-columns:1fr}
+  .mag-grid{grid-template-columns:1fr}
+  .photo-wall,.user-photos{grid-template-columns:1fr}
+  .form-row{grid-template-columns:1fr}
+  .timeline::before{left:8px}
+  .tl-item,.tl-item:nth-child(odd),.tl-item:nth-child(even){width:100%;left:0;text-align:left;padding-left:30px;padding-right:0}
+  .tl-item:nth-child(odd) .tl-dot,.tl-item:nth-child(even) .tl-dot{left:2px;right:auto}
+  .view{padding:36px 0 60px}
+  body{font-size:16px}
+  .post-form input[type=text],.post-form textarea{font-size:16px}
+  .hero-card-desc,.section-desc,.wall-text,.upload-bar p{font-size:14px}
+  .nav-item{min-height:44px}
+  .nav-burger{min-height:44px;min-width:44px}
+  .upload-btn,.post-submit,.play-btn{min-height:48px}
+}
+
+/* ===== 班刊阅读器 ===== */
+.reader{position:fixed;inset:0;background:var(--bg);z-index:150;display:none;overflow-y:auto}
+.reader.open{display:block}
+.reader-bar{position:sticky;top:0;z-index:10;background:rgba(244,241,232,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.reader-bar-inner{max-width:880px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.reader-bar-title{font-family:var(--serif);font-weight:700;font-size:16px}
+.reader-close{background:var(--main);color:#fff;border:none;padding:10px 22px;border-radius:999px;font-weight:600;font-size:14px}
+.reader-close:hover{background:var(--main-deep)}
+.reader-body{max-width:880px;margin:0 auto;padding:0 24px 80px}
+.rd-cover{text-align:center;padding:72px 0 48px}
+.rd-cover img{width:200px;height:200px;border-radius:50%;margin:0 auto 28px;box-shadow:var(--shadow)}
+.rd-cover .eyebrow{font-size:13px;letter-spacing:3px;color:var(--main-deep);margin-bottom:10px}
+.rd-cover h1{font-family:var(--serif);font-size:clamp(34px,6vw,52px);font-weight:900;letter-spacing:8px}
+.rd-cover h1 span{color:var(--main)}
+.rd-cover .meta{margin-top:16px;color:var(--ink-soft);font-size:14px;letter-spacing:1px}
+.rd-toc{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 32px;margin:0 0 56px}
+.rd-toc h3{font-family:var(--serif);text-align:center;letter-spacing:4px;margin-bottom:18px;font-size:18px}
+.rd-toc-item{display:flex;gap:14px;align-items:baseline;padding:10px 0;border-bottom:1px dashed var(--line);font-size:15px}
+.rd-toc-item:last-child{border-bottom:none}
+.rd-toc-item b{color:var(--main);font-family:var(--serif);flex:none}
+.rd-toc-item span{color:var(--ink-soft)}
+.rd-part{margin-bottom:64px}
+.rd-part-head{text-align:center;margin-bottom:32px}
+.rd-part-num{display:inline-block;background:var(--main);color:#fff;font-family:var(--serif);font-weight:700;font-size:13px;padding:4px 16px;border-radius:999px;letter-spacing:2px;margin-bottom:12px}
+.rd-part-title{font-family:var(--serif);font-size:clamp(24px,4vw,34px);font-weight:900}
+.rd-part-title span{color:var(--main)}
+.rd-part-sub{color:var(--ink-soft);font-size:15px;margin-top:10px;max-width:620px;margin-left:auto;margin-right:auto}
+.rd-block{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px;margin-bottom:28px}
+.rd-block h4{font-family:var(--serif);font-size:20px;font-weight:700;margin-bottom:12px}
+.rd-block>p{font-size:15px;color:var(--ink);margin-bottom:18px}
+.rd-imgs{display:grid;gap:14px}
+.rd-imgs.g2{grid-template-columns:1fr 1fr}
+.rd-imgs.g3{grid-template-columns:repeat(3,1fr)}
+.rd-fig{cursor:zoom-in}
+.rd-fig img{width:100%;border-radius:10px;aspect-ratio:4/3;object-fit:cover;transition:transform .3s}
+.rd-fig:hover img{transform:scale(1.02)}
+.rd-fig figcaption{font-size:12.5px;color:var(--ink-soft);margin-top:8px;text-align:center}
+.rd-card-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.rd-namecard{background:var(--main-soft);border:1px solid var(--line);border-radius:var(--radius);padding:26px;text-align:center}
+.rd-namecard img{width:110px;height:110px;border-radius:50%;margin:0 auto 14px;object-fit:cover}
+.rd-namecard .label{font-size:12px;letter-spacing:3px;color:var(--main-deep);margin-bottom:6px}
+.rd-namecard .val{font-family:var(--serif);font-weight:700;font-size:18px;line-height:1.5}
+.rd-namecard .desc{font-size:13px;color:var(--ink-soft);margin-top:8px}
+.rd-end{text-align:center;padding:40px 20px 0}
+.rd-end h3{font-family:var(--serif);font-size:26px;font-weight:900;margin-bottom:14px}
+.rd-end p{font-size:14px;color:var(--ink-soft);max-width:560px;margin:0 auto 8px}
+.rd-end .contribute{margin-top:18px;display:inline-block;background:var(--accent-soft);border-left:4px solid var(--accent);color:#7A5230;font-size:13px;padding:12px 18px;border-radius:8px;text-align:left}
+@media(max-width:640px){
+  .rd-imgs.g2,.rd-imgs.g3,.rd-card-grid{grid-template-columns:1fr}
+  .rd-block{padding:20px}
+  .rd-cover{padding:48px 0 32px}
+}
+
+/* ===== 打印/减少动效 ===== */
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== 顶部导航 ===== -->
+<header class="topbar">
+  <div class="container topbar-inner">
+    <a href="#/home" class="brand">
+      <svg class="brand-mark" viewBox="0 0 100 100" aria-hidden="true">
+        <circle cx="50" cy="50" r="46" fill="#2E9E8B"/>
+        <text x="50" y="64" font-size="42" text-anchor="middle" fill="#F4F1E8" font-family="'Noto Serif SC',serif">青</text>
+      </svg>
+      <span>青春驿站</span>
+    </a>
+    <nav class="nav" id="nav">
+      <button class="nav-item active" data-view="home">首页</button>
+      <button class="nav-item" data-view="emblem">班徽</button>
+      <button class="nav-item" data-view="song">班歌</button>
+      <button class="nav-item" data-view="magazine">班刊</button>
+      <button class="nav-item" data-view="album">时光相册</button>
+      <button class="nav-item" data-view="wall">留言墙</button>
+    </nav>
+    <button class="nav-burger" id="navBurger" aria-label="菜单">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main>
+  <!-- ===== 视图：首页 ===== -->
+  <section class="view active" id="view-home" data-view="home">
+    <div class="container">
+      <div class="hero">
+        <svg class="hero-emblem" viewBox="0 0 200 200" aria-hidden="true">
+          <defs>
+            <linearGradient id="heroGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#2E9E8B"/><stop offset="1" stop-color="#1F7A6A"/>
+            </linearGradient>
+          </defs>
+          <circle cx="100" cy="100" r="94" fill="url(#heroGrad)"/>
+          <circle cx="100" cy="100" r="84" fill="none" stroke="#F4F1E8" stroke-width="2" stroke-dasharray="4 5"/>
+          <text x="100" y="112" font-size="58" text-anchor="middle" fill="#F4F1E8" font-family="'Noto Serif SC',serif" font-weight="700">营</text>
+          <text x="100" y="158" font-size="15" text-anchor="middle" fill="#D9F0E8" letter-spacing="3">MARKETING · 3</text>
+        </svg>
+        <div class="hero-eyebrow">重庆工商大学 · 市场营销三班</div>
+        <h1 class="hero-title">青春驿站<span class="accent">·</span>我们的家</h1>
+        <p class="hero-sub">把班徽、班歌、班刊与每段时光，都安放在这里</p>
+        <p class="hero-slogan">“最好的我们，从这里开始”</p>
+
+        <div class="hero-cards">
+          <a class="hero-card" href="#/emblem">
+            <svg class="hero-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="6"/><path d="M12 14v6M8 18l4 2 4-2"/></svg>
+            <div class="hero-card-title">班徽</div>
+            <div class="hero-card-desc">属于我们的标志，看一眼就知道是我们</div>
+          </a>
+          <a class="hero-card" href="#/song">
+            <svg class="hero-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 18V5l10-2v13"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="16.5" cy="16" r="2.5"/></svg>
+            <div class="hero-card-title">班歌</div>
+            <div class="hero-card-desc">一起唱过的旋律，是青春的BGM</div>
+          </a>
+          <a class="hero-card" href="#/magazine">
+            <svg class="hero-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 4h16v16H4z"/><path d="M4 9h16M9 4v16"/></svg>
+            <div class="hero-card-title">班刊</div>
+            <div class="hero-card-desc">把大家的故事，一字一句存进刊物</div>
+          </a>
+          <a class="hero-card" href="#/wall">
+            <svg class="hero-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            <div class="hero-card-title">留言墙</div>
+            <div class="hero-card-desc">写下此刻，给未来的我们</div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 视图：班徽 ===== -->
+  <section class="view" id="view-emblem" data-view="emblem">
+    <div class="container">
+      <div class="section-head">
+        <div class="section-eyebrow">OUR EMBLEM</div>
+        <h2 class="section-title">我们的<span>班徽</span></h2>
+        <p class="section-desc">一个标志，把我们所有人凝聚在一起。</p>
+      </div>
+      <div class="emblem-main">
+        <div class="emblem-show">
+          <img class="badge" src="assets/magazine/emblem.jpg" alt="市营三班班徽" style="max-width:340px;border-radius:50%;margin:0 auto;box-shadow:var(--shadow)">
+          <div class="emblem-caption">营销三班 · 我们的徽章<small>全班投票选出 · 展翅羽翼，向上攀登</small></div>
+        </div>
+        <div class="emblem-meaning">
+          <h3>徽章里的每个元素</h3>
+          <div class="meaning-item">
+            <div class="meaning-num">1</div>
+            <div class="meaning-text">
+              <strong>展翅羽翼</strong>
+              <p>展开的白色翅膀，是我们向上生长的姿态，也是敢想敢飞的少年气。</p>
+            </div>
+          </div>
+          <div class="meaning-item">
+            <div class="meaning-num">2</div>
+            <div class="meaning-text">
+              <strong>三峰 · 金星</strong>
+              <p>金色三峰托起金星——三人成行，向上攀登，每一步都算数。</p>
+            </div>
+          </div>
+          <div class="meaning-item">
+            <div class="meaning-num">3</div>
+            <div class="meaning-text">
+              <strong>MARKETING 环绕</strong>
+              <p>专业写进徽章：我们是营销人，敏锐洞察，敢于出手。</p>
+            </div>
+          </div>
+          <div class="meaning-item">
+            <div class="meaning-num">4</div>
+            <div class="meaning-text">
+              <strong>国风回纹图腾</strong>
+              <p>环绕四周的回纹与菱纹，是藏在细节里的东方审美与文化底气。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 视图：班歌 ===== -->
+  <section class="view" id="view-song" data-view="song">
+    <div class="container">
+      <div class="section-head">
+        <div class="section-eyebrow">OUR SONG</div>
+        <h2 class="section-title">我们的<span>班歌</span></h2>
+        <p class="section-desc">这首歌，一响起就是我们的夏天。</p>
+      </div>
+      <div class="song-wrap">
+        <div class="song-player">
+          <h3 class="song-title">《我的未来式》</h3>
+          <div class="song-meta">全班投票选出 · 市营三班班歌</div>
+          <img class="song-cover" src="assets/magazine/song-poster.jpg" alt="班歌《我的未来式》封面">
+          <button class="play-btn" id="playBtn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            <span>播放班歌</span>
+          </button>
+          <div class="song-progress">
+            <span id="curTime">0:00</span>
+            <input type="range" id="seekBar" min="0" max="100" value="0">
+            <span id="durTime">0:00</span>
+          </div>
+          <audio id="songAudio" src="assets/class-song.mp3" preload="metadata"></audio>
+        </div>
+        <div class="song-lyrics">
+          <h3>我们的班级名片</h3>
+          <div class="lyric-line" style="font-weight:700;color:var(--main-deep)">向上生长，彼此照亮</div>
+          <div class="lyric-line">—— 班级口号</div>
+          <div class="lyric-line" style="margin-top:14px;font-weight:700;color:var(--main-deep)">敏锐 · 敢为</div>
+          <div class="lyric-line">—— 班级精神</div>
+          <div class="lyric-line" style="margin-top:18px;color:var(--ink-soft);font-size:13px">
+            班歌《我的未来式》为全班投票选出，完整歌词与音频待补全后在此更新。
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 视图：班刊 ===== -->
+  <section class="view" id="view-magazine" data-view="magazine">
+    <div class="container">
+      <div class="section-head">
+        <div class="section-eyebrow">OUR MAGAZINE</div>
+        <h2 class="section-title">班级<span>班刊</span></h2>
+        <p class="section-desc">一本属于我们自己的刊物，记录每一个有你的日子。</p>
+      </div>
+      <div class="mag-grid">
+        <div class="mag-card">
+          <div class="mag-cover">
+            <span class="mag-num">创刊号</span>
+            <img src="assets/magazine/emblem.jpg" alt="班刊第一期封面" style="object-fit:cover;background:var(--bg)">
+          </div>
+          <div class="mag-body">
+            <div class="mag-title">班刊 · 第一期</div>
+            <div class="mag-desc">群像印记 · 课余一隅 · 班级风貌——市营三班的第一个学期，都在这里。</div>
+            <button class="mag-btn" onclick="openReader()">阅读本期 <span aria-hidden="true">→</span></button>
+          </div>
+        </div>
+        <div class="mag-card">
+          <div class="mag-cover">
+            <span class="mag-num">第2期</span>
+            <img src="assets/magazine-2.jpg" alt="班刊第二期封面">
+          </div>
+          <div class="mag-body">
+            <div class="mag-title">征稿中 · 等你来写</div>
+            <div class="mag-desc">校园随手拍、美食记录、宿舍趣事、文学感悟——下一期的主角是你。</div>
+            <button class="mag-btn" onclick="toast('企业微信私信宣传委员即可投稿')">投稿方式 <span aria-hidden="true">→</span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 视图：时光相册 ===== -->
+  <section class="view" id="view-album" data-view="album">
+    <div class="container">
+      <div class="section-head">
+        <div class="section-eyebrow">MEMORY LANE</div>
+        <h2 class="section-title">时光<span>相册</span></h2>
+        <p class="section-desc">沿着时间走一遍，看看我们一路走来的样子。</p>
+      </div>
+
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-time">2025 · 大一</div>
+          <div class="tl-card"><strong>初入工商</strong><p>我们各自走进大学校门，在这里相遇，故事有了开头。</p></div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-time">2026 · 春 · 大一下</div>
+          <div class="tl-card"><strong>选择与分流</strong><p>市场营销的方向让我们走到一起，营销三班正式成立。</p></div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-time">2026 · 秋 · 大二</div>
+          <div class="tl-card"><strong>我们的班级</strong><p>大二上，我们真正成为一家人，青春驿站从此刻开张。</p></div>
+        </div>
+      </div>
+
+      <h3 class="section-title" style="font-size:24px;text-align:center;margin-bottom:24px">照片墙</h3>
+      <div class="photo-wall" id="photoWall">
+        <div class="photo-item" data-img="assets/photo-playground.jpg"><img src="assets/photo-playground.jpg" alt="操场上奔跑的我们"><div class="photo-cap">阳光正好，我们在操场奔跑</div></div>
+        <div class="photo-item" data-img="assets/photo-classroom.jpg"><img src="assets/photo-classroom.jpg" alt="教室里的黄昏"><div class="photo-cap">黄昏的教室，安静又温柔</div></div>
+        <div class="photo-item" data-img="assets/photo-tree.jpg"><img src="assets/photo-tree.jpg" alt="大树下的校服"><div class="photo-cap">毕业那天，长椅上的校服</div></div>
+        <div class="photo-item" data-img="assets/photo-picnic.jpg"><img src="assets/photo-picnic.jpg" alt="草坪上的野餐"><div class="photo-cap">草坪上，我们笑成一团</div></div>
+        <div class="photo-item" data-img="assets/photo-playground.jpg"><img src="assets/photo-playground.jpg" alt="一起向前"><div class="photo-cap">说好一起，走向更远的地方</div></div>
+        <div class="photo-item" data-img="assets/photo-classroom.jpg"><img src="assets/photo-classroom.jpg" alt="窗边的绿植"><div class="photo-cap">窗台的绿植，陪着我们长大</div></div>
+      </div>
+
+      <div class="upload-bar">
+        <p id="uploadNote"></p>
+        <label class="upload-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 8l-5-5-5 5M12 3v12"/></svg>
+          上传照片
+          <input type="file" id="photoUpload" accept="image/*" style="display:none">
+        </label>
+      </div>
+      <div class="user-photos" id="userPhotos"></div>
+    </div>
+  </section>
+
+  <!-- ===== 视图：留言墙 ===== -->
+  <section class="view" id="view-wall" data-view="wall">
+    <div class="container">
+      <div class="section-head">
+        <div class="section-eyebrow">OUR MESSAGES</div>
+        <h2 class="section-title">青春<span>留言墙</span></h2>
+        <p class="section-desc">写下此刻的心情，给未来的我们。</p>
+      </div>
+      <div class="note-box" id="wallNote"></div>
+      <form class="post-form" id="postForm">
+        <h3>写一条留言</h3>
+        <div class="form-row">
+          <label for="postName">你的名字</label>
+          <input type="text" id="postName" placeholder="怎么称呼你？" maxlength="20">
+        </div>
+        <div class="form-row">
+          <label for="postText">想说的话</label>
+          <textarea id="postText" placeholder="写下此刻的心情、想对大家说的话……" maxlength="300"></textarea>
+        </div>
+        <button type="submit" class="post-submit">发布留言</button>
+      </form>
+      <div id="wallList"></div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="brand">
+      <svg class="brand-mark" viewBox="0 0 100 100" aria-hidden="true">
+        <circle cx="50" cy="50" r="46" fill="#2E9E8B"/>
+        <text x="50" y="64" font-size="42" text-anchor="middle" fill="#F4F1E8" font-family="'Noto Serif SC',serif">青</text>
+      </svg>
+      <span>青春驿站</span>
+    </div>
+    <p>把青春存在这里，把回忆带回身边 · © 2026 重庆工商大学 市场营销三班</p>
+  </div>
+</footer>
+
+<!-- ===== 班刊第一期 · 阅读器 ===== -->
+<div class="reader" id="reader">
+  <div class="reader-bar">
+    <div class="reader-bar-inner">
+      <div class="reader-bar-title">班刊 · 第一期</div>
+      <button class="reader-close" onclick="closeReader()">关闭</button>
+    </div>
+  </div>
+  <div class="reader-body">
+
+    <div class="rd-cover">
+      <img src="assets/magazine/emblem.jpg" alt="班徽">
+      <div class="eyebrow">重庆工商大学 · 市场营销三班</div>
+      <h1>班 刊<span> · </span>第 一 期</h1>
+      <div class="meta">主编：宣传委员 ｜ 2026年9-10月 ｜ 25市营三班</div>
+    </div>
+
+    <div class="rd-toc">
+      <h3>目 录</h3>
+      <div class="rd-toc-item"><b>PART ONE</b><span>群像印记 —— 集体活动影像与班会记录</span></div>
+      <div class="rd-toc-item"><b>PART TWO</b><span>课余一隅 —— 同学投稿、趣事与日常碎片</span></div>
+      <div class="rd-toc-item"><b>PART THREE</b><span>班级风貌 —— 班歌 · 口号 · 班级精神 · 班徽</span></div>
+    </div>
+
+    <div class="rd-part">
+      <div class="rd-part-head">
+        <div class="rd-part-num">PART ONE</div>
+        <div class="rd-part-title">群像<span>印记</span></div>
+        <p class="rd-part-sub">从分流后的第一次相聚，到一场场班会与团日，这些镜头里，藏着我们共同的九月与十月。</p>
+      </div>
+      <div class="rd-block">
+        <h4>我们的第一次相聚</h4>
+        <p>大一下分流，我们从不同班级走到一起。第一次点名、第一次班会、第一次记住彼此的名字——市营三班，从这里开始。</p>
+        <div class="rd-imgs g2">
+          <figure class="rd-fig" data-img="assets/magazine/p02-a.jpg"><img src="assets/magazine/p02-a.jpg" alt="第一次班委会"><figcaption>第一次班委会 · 7教407 · 2026.9.28</figcaption></figure>
+          <figure class="rd-fig" data-img="assets/magazine/p02-b.jpg"><img src="assets/magazine/p02-b.jpg" alt="暮色里的钟楼"><figcaption>暮色里的钟楼</figcaption></figure>
+        </div>
+      </div>
+      <div class="rd-block">
+        <h4>在更大的舞台上发光</h4>
+        <p>从班级课堂到校级舞台，我们在一次次竞赛中学习、练胆、试错、成长。</p>
+        <div class="rd-imgs g2">
+          <figure class="rd-fig" data-img="assets/magazine/p03-a.jpg"><img src="assets/magazine/p03-a.jpg" alt="简历设计大赛复赛"><figcaption>简历设计大赛复赛 · 现场答辩</figcaption></figure>
+          <figure class="rd-fig" data-img="assets/magazine/p03-b.jpg"><img src="assets/magazine/p03-b.jpg" alt="中国国际大学生创新大赛决赛"><figcaption>观看中国国际大学生创新大赛 · 重庆赛区决赛颁奖</figcaption></figure>
+        </div>
+      </div>
+      <div class="rd-block">
+        <h4>属于我们的班委会</h4>
+        <p>辅导员施秀梅老师带队，班委们一起讨论班级事务——这些细碎的商量，都是为了市营三班更好。</p>
+        <div class="rd-imgs g2">
+          <figure class="rd-fig" data-img="assets/magazine/p04-a.jpg"><img src="assets/magazine/p04-a.jpg" alt="白板上写着班委会"><figcaption>白板上写着「25市营3班委会」</figcaption></figure>
+          <figure class="rd-fig" data-img="assets/magazine/p04-b.jpg"><img src="assets/magazine/p04-b.jpg" alt="班委们讨论班级事务"><figcaption>教室里，班委们在安排新学期的工作</figcaption></figure>
+        </div>
+      </div>
+    </div>
+
+    <div class="rd-part">
+      <div class="rd-part-head">
+        <div class="rd-part-num">PART TWO</div>
+        <div class="rd-part-title">课余<span>一隅</span></div>
+        <p class="rd-part-sub">宿舍趣事、随手拍、美食、猫、晚霞、一段感悟——都是我们班的小确幸。</p>
+      </div>
+      <div class="rd-block">
+        <h4>镜头里的小美好</h4>
+        <p>投稿人：曹盈盈 ｜ 美食 · 江景 · 校园猫——盈盈镜头里的重庆日常。</p>
+        <div class="rd-imgs g3">
+          <figure class="rd-fig" data-img="assets/magazine/p05-a.jpg"><img src="assets/magazine/p05-a.jpg" alt="一桌好菜"><figcaption>一桌好菜</figcaption></figure>
+          <figure class="rd-fig" data-img="assets/magazine/p05-b.jpg"><img src="assets/magazine/p05-b.jpg" alt="来福士"><figcaption>横跨楼宇的来福士</figcaption></figure>
+          <figure class="rd-fig" data-img="assets/magazine/p05-c.jpg"><img src="assets/magazine/p05-c.jpg" alt="两江夜景"><figcaption>两江夜景</figcaption></figure>
+          <figure class="rd-fig" data-img="assets/magazine/p05-d.jpg"><img src="assets/magazine/p05-d.jpg" alt="校园猫"><figcaption>校园猫</figcaption></figure>
+          <figure class="rd-fig" data-img="assets/magazine/p05-e.jpg"><img src="assets/magazine/p05-e.jpg" alt="围炉烤肉"><figcaption>围炉烤肉</figcaption></figure>
+          <figure class="rd-fig" data-img="assets/magazine/p05-f.jpg"><img src="assets/magazine/p05-f.jpg" alt="火锅局"><figcaption>火锅局</figcaption></figure>
+        </div>
+      </div>
+      <p class="rd-part-sub" style="text-align:center">欢迎更多同学投稿，企业微信私信宣传委员即可。</p>
+    </div>
+
+    <div class="rd-part">
+      <div class="rd-part-head">
+        <div class="rd-part-num">PART THREE</div>
+        <div class="rd-part-title">班级<span>风貌</span></div>
+        <p class="rd-part-sub">一首班歌、一句口号、一种精神、一枚班徽——这是我们投票共同选出的班级名片。</p>
+      </div>
+      <div class="rd-card-grid">
+        <div class="rd-namecard">
+          <img src="assets/magazine/emblem.jpg" alt="班徽">
+          <div class="label">班 徽</div>
+          <div class="val">展翅羽翼 · 三峰 · 金星</div>
+          <div class="desc">三人成行，向上攀登；MARKETING 环绕，国风图腾。</div>
+        </div>
+        <div class="rd-namecard">
+          <div class="label">班 歌</div>
+          <div class="val">《我的未来式》</div>
+          <div class="desc">全班投票选出 · 一响起就是我们的旋律</div>
+        </div>
+        <div class="rd-namecard">
+          <div class="label">口 号</div>
+          <div class="val">向上生长，彼此照亮</div>
+        </div>
+        <div class="rd-namecard">
+          <div class="label">精 神</div>
+          <div class="val">敏锐 · 敢为</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rd-end">
+      <h3>感谢阅读</h3>
+      <p>特别感谢愿意分享的每一位同学。一张照片、一段小故事，都是市营三班的小美好。</p>
+      <p>投稿方式：企业微信私信宣传委员，或班级群内收集文件直接发送。</p>
+      <span class="contribute">校园随手拍 · 美食记录 · 宿舍趣事 · 文学感悟，欢迎来稿。</span>
+    </div>
+
+  </div>
+</div>
+
+<div class="lightbox" id="lightbox"><img id="lightboxImg" src="" alt="查看大图"></div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ===== 路由与导航 ===== */
+const views = document.querySelectorAll('.view');
+const navItems = document.querySelectorAll('.nav-item');
+
+function goView(name){
+  views.forEach(v=>v.classList.toggle('active', v.dataset.view===name));
+  navItems.forEach(n=>n.classList.toggle('active', n.dataset.view===name));
+  window.scrollTo({top:0, behavior:'smooth'});
+  document.getElementById('nav').classList.remove('open');
+}
+navItems.forEach(n=>{
+  n.addEventListener('click',()=>goView(n.dataset.view));
+});
+document.getElementById('navBurger').addEventListener('click',()=>{
+  document.getElementById('nav').classList.toggle('open');
+});
+// hash 路由
+window.addEventListener('hashchange',()=>{
+  const h = location.hash.replace('#/','');
+  if(h && document.querySelector(`[data-view="${h}"]`)) goView(h);
+});
+if(location.hash){
+  const h = location.hash.replace('#/','');
+  if(h && document.querySelector(`[data-view="${h}"]`)) goView(h);
+}
+
+/* ===== 班歌播放 ===== */
+const audio = document.getElementById('songAudio');
+const playBtn = document.getElementById('playBtn');
+const seekBar = document.getElementById('seekBar');
+const curTime = document.getElementById('curTime');
+const durTime = document.getElementById('durTime');
+let isPlaying = false;
+
+function fmt(s){
+  if(isNaN(s)) return '0:00';
+  const m = Math.floor(s/60), sec = Math.floor(s%60);
+  return m+':'+String(sec).padStart(2,'0');
+}
+playBtn.addEventListener('click',()=>{
+  if(isPlaying){ audio.pause(); isPlaying=false; playBtn.querySelector('span').textContent='播放班歌'; playBtn.innerHTML='<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg><span>播放班歌</span>'; }
+  else{
+    audio.play().then(()=>{
+      isPlaying=true;
+      playBtn.innerHTML='<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg><span>暂停</span>';
+    }).catch(()=>toast('无法播放，请检查音频文件'));
+  }
+});
+audio.addEventListener('loadedmetadata',()=>durTime.textContent=fmt(audio.duration));
+audio.addEventListener('timeupdate',()=>{
+  curTime.textContent=fmt(audio.currentTime);
+  seekBar.value= audio.duration? (audio.currentTime/audio.duration*100):0;
+});
+audio.addEventListener('ended',()=>{ isPlaying=false; playBtn.innerHTML='<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg><span>播放班歌</span>'; });
+seekBar.addEventListener('input',()=>{
+  if(audio.duration) audio.currentTime = seekBar.value/100*audio.duration;
+});
+
+/* ===== 灯箱 ===== */
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightboxImg');
+document.getElementById('photoWall').addEventListener('click',e=>{
+  const item = e.target.closest('.photo-item');
+  if(item){ lightboxImg.src = item.dataset.img; lightbox.classList.add('open'); }
+});
+lightbox.addEventListener('click',()=>lightbox.classList.remove('open'));
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') lightbox.classList.remove('open'); });
+
+/* ================================================================
+   云端配置：填入 Supabase 的 Project URL 与 anon key 后，
+   留言与照片自动全班实时同步；留空则退回本机模式（只存在自己设备上）
+   ================================================================ */
+const SB_URL = '';   // 例：https://abcdefgh.supabase.co
+const SB_KEY = '';   // 例：eyJhbGciOi...（anon public key）
+const CLOUD = !!(SB_URL && SB_KEY);
+const SB_HEADERS = { apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY, 'Content-Type':'application/json' };
+
+/* ---------- 通用 REST ---------- */
+async function sbGet(path){
+  const r = await fetch(SB_URL + '/rest/v1/' + path, { headers: SB_HEADERS });
+  if(!r.ok) throw new Error('读取失败 ' + r.status);
+  return r.json();
+}
+async function sbWrite(method, path, body){
+  const r = await fetch(SB_URL + '/rest/v1/' + path, {
+    method,
+    headers: Object.assign({}, SB_HEADERS, { Prefer: body ? 'return=representation' : 'return=minimal' }),
+    body: body ? JSON.stringify(body) : undefined
+  });
+  if(!r.ok) throw new Error('写入失败 ' + r.status);
+  const txt = await r.text();
+  return txt ? JSON.parse(txt) : null;
+}
+
+/* ---------- 实时推送（WebSocket） ---------- */
+let rtSocket = null, rtHeartbeat = null, rtRef = 1;
+function initRealtime(){
+  if(!CLOUD) return;
+  const host = new URL(SB_URL).host;
+  try{ rtSocket = new WebSocket('wss://' + host + '/realtime/v1/websocket?apikey=' + SB_KEY + '&vsn=1.0.0'); }
+  catch(e){ console.warn('实时连接失败', e); return; }
+  rtSocket.onopen = ()=>{
+    ['messages','photos'].forEach(t=>{
+      rtSocket.send(JSON.stringify({
+        topic: 'realtime:public:' + t, event: 'phx_join',
+        payload: { config: { broadcast:{self:false}, presence:{key:''},
+                   postgres_changes:[{event:'*', schema:'public', table:t}] } },
+        ref: String(rtRef++), join_ref: String(rtRef++)
+      }));
+    });
+    rtHeartbeat = setInterval(()=>{
+      if(rtSocket && rtSocket.readyState === 1)
+        rtSocket.send(JSON.stringify({ topic:'phoenix', event:'heartbeat', payload:{}, ref:null }));
+    }, 25000);
+  };
+  rtSocket.onmessage = ev=>{
+    try{
+      const m = JSON.parse(ev.data);
+      if(m.event === 'insert' || m.event === 'update' || m.event === 'delete'){
+        const topic = String(m.topic || '');
+        if(topic.indexOf(':messages') > -1) refreshWall();
+        if(topic.indexOf(':photos') > -1) refreshPhotos();
+      }
+    }catch(e){}
+  };
+  rtSocket.onclose = ()=>{ clearInterval(rtHeartbeat); setTimeout(initRealtime, 5000); };
+}
+
+/* ---------- 图片压缩 ---------- */
+function compressImage(file, max=1280, q=0.82){
+  return new Promise((resolve,reject)=>{
+    const reader = new FileReader();
+    reader.onerror = ()=>reject(new Error('读取失败'));
+    reader.onload = ()=>{
+      const img = new Image();
+      img.onerror = ()=>reject(new Error('不是有效图片'));
+      img.onload = ()=>{
+        const s = Math.min(1, max / Math.max(img.width, img.height));
+        const c = document.createElement('canvas');
+        c.width = Math.round(img.width * s); c.height = Math.round(img.height * s);
+        c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+        c.toBlob(b => b ? resolve(b) : reject(new Error('压缩失败')), 'image/jpeg', q);
+      };
+      img.src = reader.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+/* ---------- 照片：云端优先，本机兜底 ---------- */
+const userPhotosEl = document.getElementById('userPhotos');
+function localPhotos(){
+  try{ return JSON.parse(localStorage.getItem('qc_photos')||'[]'); }catch(e){ return []; }
+}
+async function refreshPhotos(){
+  let urls = [];
+  if(CLOUD){
+    try{
+      const rows = await sbGet('photos?select=url&order=created_at.desc&limit=200');
+      urls = rows.map(r=>r.url);
+    }catch(e){ console.warn(e); }
+  }else{
+    urls = localPhotos();
+  }
+  userPhotosEl.innerHTML = urls.length
+    ? urls.map(u => '<div class="photo-item" data-img="' + escapeHtml(u) + '"><img src="' + escapeHtml(u) + '" alt="同学上传的照片"></div>').join('')
+    : '<p style="grid-column:1/-1;text-align:center;color:var(--ink-soft);font-size:13px">还没有同学上传照片，来当第一个吧</p>';
+}
+const photoInput = document.getElementById('photoUpload');
+photoInput.addEventListener('change', async e=>{
+  const file = e.target.files[0];
+  if(!file) return;
+  if(!file.type.startsWith('image/')){ toast('请选择图片文件'); return; }
+  if(file.size > 8*1024*1024){ toast('图片过大，请选择 8MB 以内'); return; }
+  toast('正在上传…');
+  try{
+    const blob = await compressImage(file);
+    if(CLOUD){
+      const name = 'p' + Date.now() + '_' + Math.random().toString(36).slice(2,8) + '.jpg';
+      const up = await fetch(SB_URL + '/storage/v1/object/class-photos/' + name, {
+        method: 'POST',
+        headers: { apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY, 'Content-Type': 'image/jpeg', 'x-upsert': 'false' },
+        body: blob
+      });
+      if(!up.ok) throw new Error('上传失败');
+      const url = SB_URL + '/storage/v1/object/public/class-photos/' + name;
+      await sbWrite('POST', 'photos', { url: url, uploader: '' });
+      toast('照片已上传，全班都能看到啦');
+    }else{
+      const dataUrl = await new Promise(res=>{ const r2 = new FileReader(); r2.onload = ()=>res(r2.result); r2.readAsDataURL(blob); });
+      const list = localPhotos(); list.unshift(dataUrl);
+      localStorage.setItem('qc_photos', JSON.stringify(list));
+      toast('照片已保存到本机');
+    }
+    refreshPhotos();
+  }catch(err){
+    console.error(err);
+    toast('上传失败，请稍后再试');
+  }
+  e.target.value = '';
+});
+
+/* ===== 留言墙：云端优先，本机兜底 ===== */
+const wallList = document.getElementById('wallList');
+function escapeHtml(s){ return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function likedIds(){
+  try{ return JSON.parse(localStorage.getItem('qc_liked')||'[]'); }catch(e){ return []; }
+}
+function fmtTime(iso){
+  const d = new Date(iso);
+  if(isNaN(d)) return String(iso);
+  return d.toLocaleString('zh-CN',{month:'long',day:'numeric',hour:'2-digit',minute:'2-digit'});
+}
+function renderWallItems(items){
+  if(!items.length){
+    wallList.innerHTML = '<div class="wall-empty">这里还空着，来写下第一条留言吧</div>';
+    return;
+  }
+  const liked = likedIds();
+  wallList.innerHTML = items.map(m=>{
+    const key = (m.id != null ? 'c' + m.id : 'l' + m.t);
+    const isLiked = liked.indexOf(key) >= 0;
+    const avatar = (m.name || '青').charAt(0);
+    return '<div class="wall-item">'
+      + '<div class="wall-head">'
+      +   '<div class="wall-avatar">' + escapeHtml(avatar) + '</div>'
+      +   '<div><div class="wall-name">' + escapeHtml(m.name || '匿名') + '</div>'
+      +   '<div class="wall-time">' + escapeHtml(m.time) + '</div></div>'
+      + '</div>'
+      + '<div class="wall-text">' + escapeHtml(m.text) + '</div>'
+      + '<div class="wall-actions">'
+      +   '<button class="like-btn' + (isLiked ? ' liked' : '') + '" data-k="' + escapeHtml(key) + '" data-id="' + (m.id == null ? '' : m.id) + '" data-n="' + (m.likes || 0) + '">'
+      +     '<svg width="15" height="15" viewBox="0 0 24 24" fill="' + (isLiked ? 'currentColor' : 'none') + '" stroke="currentColor" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21.2l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>'
+      +     '<span>' + (m.likes || 0) + '</span> 赞'
+      +   '</button>'
+      + '</div></div>';
+  }).join('');
+}
+async function refreshWall(){
+  if(CLOUD){
+    try{
+      const rows = await sbGet('messages?select=id,name,text,likes,created_at&order=created_at.desc&limit=300');
+      renderWallItems(rows.map(r=>({ id:r.id, name:r.name, text:r.text, likes:r.likes||0, time:fmtTime(r.created_at) })));
+      return;
+    }catch(e){ console.warn(e); }
+  }
+  let list=[]; try{ list=JSON.parse(localStorage.getItem('qc_wall')||'[]'); }catch(e){ list=[]; }
+  renderWallItems(list.map((m,i)=>({ id:null, t:i, name:m.name, text:m.text, likes:m.likes||0, time:m.time })));
+}
+document.getElementById('postForm').addEventListener('submit', async e=>{
+  e.preventDefault();
+  const name = document.getElementById('postName').value.trim();
+  const text = document.getElementById('postText').value.trim();
+  if(!text){ toast('先写点什么吧'); return; }
+  if(text.length > 300){ toast('留言最多 300 字'); return; }
+  const last = +(localStorage.getItem('qc_lastpost') || 0);
+  if(Date.now() - last < 15000){ toast('慢一点，歇 15 秒再发一条'); return; }
+  const submitBtn = e.target.querySelector('.post-submit');
+  if(submitBtn) submitBtn.disabled = true;
+  try{
+    if(CLOUD){
+      await sbWrite('POST', 'messages', { name: name || '匿名', text: text, likes: 0 });
+      toast('留言已发布，全班都能看到');
+    }else{
+      let list=[]; try{ list=JSON.parse(localStorage.getItem('qc_wall')||'[]'); }catch(err){ list=[]; }
+      list.unshift({ name: name || '匿名', text: text,
+        time: new Date().toLocaleString('zh-CN',{month:'long',day:'numeric',hour:'2-digit',minute:'2-digit'}),
+        likes: 0 });
+      localStorage.setItem('qc_wall', JSON.stringify(list));
+      toast('留言已保存到本机');
+    }
+    localStorage.setItem('qc_lastpost', String(Date.now()));
+    document.getElementById('postName').value = '';
+    document.getElementById('postText').value = '';
+    refreshWall();
+  }catch(err){
+    console.error(err);
+    toast('发布失败，请检查网络后重试');
+  }
+  if(submitBtn) submitBtn.disabled = false;
+});
+wallList.addEventListener('click', async e=>{
+  const btn = e.target.closest('.like-btn');
+  if(!btn) return;
+  const key = btn.dataset.k, id = btn.dataset.id, n = +(btn.dataset.n || 0);
+  const liked = likedIds();
+  const i = liked.indexOf(key);
+  const nowLiked = i < 0;
+  if(nowLiked) liked.push(key); else liked.splice(i, 1);
+  localStorage.setItem('qc_liked', JSON.stringify(liked));
+  if(CLOUD && id){
+    try{ await sbWrite('PATCH', 'messages?id=eq.' + id, { likes: Math.max(0, n + (nowLiked ? 1 : -1)) }); }
+    catch(err){ console.warn(err); }
+  }
+  refreshWall();
+});
+
+/* ===== 班刊阅读器 ===== */
+const reader = document.getElementById('reader');
+function openReader(){
+  reader.classList.add('open');
+  reader.scrollTop = 0;
+  document.body.style.overflow='hidden';
+}
+function closeReader(){
+  reader.classList.remove('open');
+  document.body.style.overflow='';
+}
+reader.addEventListener('click',e=>{
+  const fig = e.target.closest('.rd-fig');
+  if(fig){ lightboxImg.src = fig.dataset.img; lightbox.classList.add('open'); }
+});
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape' && reader.classList.contains('open') && !lightbox.classList.contains('open')) closeReader();
+});
+
+/* ===== Toast ===== */
+let toastTimer;
+function toast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>t.classList.remove('show'), 2200);
+}
+
+/* ===== 同步状态提示 ===== */
+function updateSyncNote(){
+  const wn = document.getElementById('wallNote');
+  const un = document.getElementById('uploadNote');
+  if(CLOUD){
+    if(wn) wn.innerHTML = '<strong>全班实时同步中</strong> · 你的留言和照片会立刻出现在所有人的页面上。留言公开可见，请不要写学号、电话等个人信息。';
+    if(un) un.textContent = '上传你的照片，全班马上就能看到（会自动压缩，建议 8MB 以内）。';
+  }else{
+    if(wn) wn.innerHTML = '温馨提示：当前为<strong>本机模式</strong>，留言和照片只保存在你这台设备上，互相看不到。接入云端后即可全班实时同步。';
+    if(un) un.textContent = '上传你的照片，把它加入这本班级相册（当前保存在本机浏览器）。';
+  }
+}
+
+/* ===== 初始化 ===== */
+updateSyncNote();
+refreshPhotos();
+refreshWall();
+initRealtime();
+</script>
+</body>
+</html>
